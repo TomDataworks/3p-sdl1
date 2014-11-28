@@ -25,6 +25,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>89824e0d20913167c2220229269929db</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/libpng-1.6.13-linux64-20141128.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
         </map>
       </map>
       <key>zlib</key>
@@ -48,6 +60,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>34f49ffedc5ee34ceb1f10767d9f69b5</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/zlib-1.2.8-linux64-20141125.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
         </map>
       </map>
@@ -119,6 +143,31 @@
           </array>
           <key>name</key>
           <string>linux</string>
+        </map>
+        <key>linux64</key>
+        <map>
+          <key>configurations</key>
+          <map>
+            <key>Release</key>
+            <map>
+              <key>build</key>
+              <map>
+              </map>
+              <key>default</key>
+              <string>True</string>
+              <key>name</key>
+              <string>Release</string>
+            </map>
+          </map>
+          <key>manifest</key>
+          <array>
+            <string>lib/release/*.a</string>
+            <string>lib/debug/*.a</string>
+            <string>lib/release/*so*</string>
+            <string>lib/debug/*so*</string>
+          </array>
+          <key>name</key>
+          <string>linux64</string>
         </map>
       </map>
       <key>version</key>
