@@ -30,9 +30,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>89824e0d20913167c2220229269929db</string>
+              <string>3d977b7ae82b72da5eb315ea01a415e2</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/libpng-1.6.13-linux64-20141128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/libpng-1.6.13-linux64-20141213.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -66,9 +66,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>34f49ffedc5ee34ceb1f10767d9f69b5</string>
+              <string>23967544a78df78fcf3a69a30fee33a8</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/zlib-1.2.8-linux64-20141125.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/zlib-1.2.8-linux64-20141209.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
