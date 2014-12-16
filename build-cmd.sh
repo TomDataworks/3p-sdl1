@@ -220,9 +220,9 @@ case "$AUTOBUILD_PLATFORM" in
                 CPPFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts" \
                 LDFLAGS="-L"$stage/packages/lib/debug" -L"$stage/lib/debug" $opts" \
                 ./configure --target=x86_64-linux-gnu --with-pic \
-                --prefix="$stage" --libdir="$stage/lib/debug" --includedir="$stage/include"
+                --prefix="\${AUTOBUILD_PACKAGES_DIR}" --libdir="\${prefix}/lib/debug" --includedir="\${prefix}/include"
             make
-            make install
+            make install DESTDIR="$stage"
 
             # clean the build tree
             make distclean
@@ -234,9 +234,9 @@ case "$AUTOBUILD_PLATFORM" in
                 CPPFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts" \
                 LDFLAGS="-L"$stage/packages/lib/release" -L"$stage/lib/release" $opts" \
                 ./configure --target=x86_64-linux-gnu --with-pic \
-                --prefix="$stage" --libdir="$stage/lib/release" --includedir="$stage/include"
+                --prefix="\${AUTOBUILD_PACKAGES_DIR}" --libdir="\${prefix}/lib/release" --includedir="\${prefix}/include"
             make
-            make install
+            make install DESTDIR="$stage"
 
             # clean the build tree
             make distclean
