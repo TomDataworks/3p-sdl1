@@ -33,6 +33,8 @@ PNG_INCLUDE="${stage}"/packages/include/libpng16
 [ -f "$ZLIB_INCLUDE"/zlib.h ] || fail "You haven't installed the zlib package yet."
 [ -f "$PNG_INCLUDE"/png.h ] || fail "You haven't installed the libpng package yet."
 
+echo "${SDL_VERSION}" > "$stage/VERSION.txt"
+
 # Restore all .sos
 restore_sos ()
 {

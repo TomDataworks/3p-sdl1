@@ -5,6 +5,10 @@
     <map>
       <key>libpng</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2004, 2006-2014 Glenn Randers-Pehrson</string>
+        <key>description</key>
+        <string>PNG Reference library</string>
         <key>license</key>
         <string>libpng</string>
         <key>license_file</key>
@@ -30,17 +34,25 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3d977b7ae82b72da5eb315ea01a415e2</string>
+              <string>d48ea3669683e0bc7abf5ed6bcad8db5</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/libpng-1.6.13-linux64-20141213.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/libpng-1.6.15-linux64-201501030340.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>1.6.15</string>
       </map>
       <key>zlib</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (C) 1995-2013 Jean-loup Gailly and Mark Adler</string>
+        <key>description</key>
+        <string>Zlib Data Compression Library</string>
         <key>license</key>
         <string>zlib</string>
         <key>license_file</key>
@@ -66,18 +78,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>23967544a78df78fcf3a69a30fee33a8</string>
+              <string>7e02ce63286a14c28e410fd399e7a748</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/zlib-1.2.8-linux64-20141209.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/zlib-1.2.8-linux64-201501030147.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>1.2.8</string>
       </map>
     </map>
     <key>package_description</key>
     <map>
+      <key>copyright</key>
+      <string>Copyright (c) 2004, 2006-2013 Sam Lantinga</string>
       <key>description</key>
       <string>Simple DirectMedia Layer is a cross-platform multimedia library designed to provide low level access to audio, keyboard, mouse, joystick, 3D hardware via OpenGL, and 2D video framebuffer.</string>
       <key>license</key>
@@ -112,8 +130,6 @@
           <key>manifest</key>
           <array>
             <string>include/SDL/*</string>
-            <string>include/directfb/*</string>
-            <string>include/directfb-internal/*</string>
             <string>docs/SDL/README.Linden</string>
           </array>
           <key>name</key>
@@ -170,12 +186,12 @@
           <string>linux64</string>
         </map>
       </map>
-      <key>version</key>
-      <string>1.2.15</string>
+      <key>version_file</key>
+      <string>VERSION.txt</string>
     </map>
     <key>type</key>
     <string>autobuild</string>
     <key>version</key>
-    <string>1.2</string>
+    <string>1.3</string>
   </map>
 </llsd>

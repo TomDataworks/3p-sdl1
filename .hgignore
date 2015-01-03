@@ -1,6 +1,4 @@
 syntax: glob
 stage/
 autobuild-parabuild-bootstrap/
-SDL-1.2.14/*
-DirectFB-1.4.9/*
 *.swp
