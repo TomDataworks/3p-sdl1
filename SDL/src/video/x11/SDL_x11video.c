@@ -1088,7 +1088,7 @@ static int X11_CreateWindow(_THIS, SDL_Surface *screen,
 		}
 	}
 
-#if 0 /* This is an experiment - are the graphics faster now? - nope. */
+#if 1 /* This is an experiment - are the graphics faster now? - nope. */
 	if ( SDL_getenv("SDL_VIDEO_X11_BACKINGSTORE") )
 #endif
 	/* Cache the window in the server, when possible */
@@ -1177,8 +1177,6 @@ SDL_Surface *X11_SetVideoMode(_THIS, SDL_Surface *current,
 			current = NULL;
 			goto done;
 		}
-		X11_PendingConfigureNotifyWidth = width;
-		X11_PendingConfigureNotifyHeight = height;
 	} else {
 		if (X11_CreateWindow(this,current,width,height,bpp,flags) < 0) {
 			current = NULL;
