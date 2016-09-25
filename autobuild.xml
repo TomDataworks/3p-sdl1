@@ -6,7 +6,7 @@
       <key>libpng</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 2004, 2006-2016 Glenn Randers-Pehrson</string>
+        <string>Copyright (c) 2000-2002, 2004, 2006-2016 Glenn Randers-Pehrson</string>
         <key>description</key>
         <string>PNG Reference library</string>
         <key>license</key>
@@ -34,18 +34,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>cd64cda7107b967279d5af03b0d46a8f</string>
+              <string>d9cbaf3f5a3cc819d757f321db620c56</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/libpng-1.6.21-linux64-201603240933.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/libpng-1.6.25-linux64-201609250045.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.6.21</string>
+        <string>1.6.25</string>
       </map>
       <key>zlib</key>
       <map>
@@ -78,11 +78,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1eaee9888043648d5f09716b771dcb4b</string>
+              <string>9eb17b1c699c7de25f013b22c14583e3</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/zlib-1.2.8-linux64-201603240746.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/zlib-1.2.8-linux64-201609240212.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
