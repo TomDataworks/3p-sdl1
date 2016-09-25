@@ -187,16 +187,10 @@ case "$AUTOBUILD_PLATFORM" in
         #
         # unset DISTCC_HOSTS CC CXX CFLAGS CPPFLAGS CXXFLAGS
 
-        # Prefer gcc-4.8 if available.
-        if [[ -x /usr/bin/gcc-4.8 && -x /usr/bin/g++-4.8 ]]; then
-            export CC=/usr/bin/gcc-4.8
-            export CXX=/usr/bin/g++-4.8
-        fi
-
         # Default target to 64-bit
         opts="${TARGET_OPTS:--m64}"
         JOBS=`cat /proc/cpuinfo | grep processor | wc -l`
-        HARDENED="-fstack-protector -D_FORTIFY_SOURCE=2"
+        HARDENED="-fstack-protector-strong -D_FORTIFY_SOURCE=2"
 
         # Handle any deliberate platform targeting
         if [ -z "$TARGET_CPPFLAGS" ]; then
