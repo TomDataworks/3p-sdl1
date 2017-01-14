@@ -63,14 +63,16 @@ case "$AUTOBUILD_PLATFORM" in
         #
         # unset DISTCC_HOSTS CC CXX CFLAGS CPPFLAGS CXXFLAGS
 
-        # Prefer gcc-4.6 if available.
+        # Prefer gcc-4.8 if available.
         if [[ -x /usr/bin/gcc-4.8 && -x /usr/bin/g++-4.8 ]]; then
             export CC=/usr/bin/gcc-4.8
             export CXX=/usr/bin/g++-4.8
         fi
 
-        # Default target to 32-bit
+        # Default target to 64-bit
         opts="${TARGET_OPTS:--m32}"
+        JOBS=`cat /proc/cpuinfo | grep processor | wc -l`
+        HARDENED="-fstack-protector -D_FORTIFY_SOURCE=2"
 
         # Handle any deliberate platform targeting
         if [ -z "$TARGET_CPPFLAGS" ]; then
@@ -90,81 +92,31 @@ case "$AUTOBUILD_PLATFORM" in
             fi
         done
 
-        # DirectFB first.  There's a potential circular dependency in that
-        # DirectFB can use SDL but that doesn't arise in our case.
-        # Prevent .sos from re-exporting libz or libpng (which they
-        # have done in the past).  Boost the various *FLAGS settings
-        # so package includes are found and probed, not system libraries.
-        # Similarly, pick up packages libraries.
-
-        pushd "$TOP/$DIRECTFB_SOURCE_DIR"
-            # Debug build of directfb    
-            CFLAGS="-I"$ZLIB_INCLUDE" $opts -g" \
-                CXXFLAGS="-I"$ZLIB_INCLUDE" $opts -g" \
-                CPPFLAGS="$CPPFLAGS -I"$PNG_INCLUDE" -I"$ZLIB_INCLUDE"" \
-                LDFLAGS="-Wl,--exclude-libs,libz:libpng16 -L"$stage/packages/lib/debug" $opts" \
-                LIBPNG_CFLAGS="-I"$PNG_INCLUDE"" \
-                LIBPNG_LIBS="-lpng16 -lz -lm" \
-                ./configure --prefix="$stage" --libdir="$stage/lib/debug" --includedir="$stage/include" \
-                --with-pic --enable-static --enable-shared --enable-zlib --disable-freetype
-            make V=1
-            make install
-
-            # clean the build tree
-            # Would like to do this but this deletes files that are generated
-            # by 'fluxcomp' and we don't have that installed anywhere so don't
-            # scrub between builds.
-            # make distclean
-
-            # do release build of directfb  
-            CFLAGS="-I"$ZLIB_INCLUDE" $opts -O3" \
-                CXXFLAGS="-I"$ZLIB_INCLUDE" $opts -O3" \
-                CPPFLAGS="$CPPFLAGS -I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE"" \
-                LDFLAGS="-Wl,--exclude-libs,libz:libpng16 -L"$stage/packages/lib/release" $opts" \
-                LIBPNG_CFLAGS="-I"$PNG_INCLUDE"" \
-                LIBPNG_LIBS="-lpng16 -lz -lm" \
-                ./configure --prefix="$stage" --libdir="$stage/lib/release" --includedir="$stage/include" \
-                --with-pic --enable-static --enable-shared --enable-zlib --disable-freetype
-            make V=1
-            make install
-
-            # clean the build tree
-            # make distclean
-        popd
-
-        # SDL built last and using DirectFB as a 'package'.
-        # With 1.2.15, configure needs to find the directfb-config program built
-        # above.  If it doesn't find it, it will disable directfb support (though
-        # this may be okay in practice).  We achieve that with PATH setting.
-        # Otherwise, *FLAGS boosted to find package includes including directfb,
-        # same for libraries though directfb-config will send the debug SDL build
-        # into the release DirectFB staging area.
-
         pushd "$TOP/$SDL_SOURCE_DIR"
             # do debug build of sdl
             PATH="$stage"/bin/:"$PATH" \
-                CFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" -I"$stage"/include/directfb/ $opts -O1 -g" \
-                CXXFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" -I"$stage"/include/directfb/ $opts -O1 -g" \
-                CPPFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" -I"$stage"/include/directfb/ $opts" \
+                CFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts -Og -g" \
+                CXXFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts -Og -g" \
+                CPPFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts" \
                 LDFLAGS="-L"$stage/packages/lib/debug" -L"$stage/lib/debug" $opts" \
-                ./configure --target=i686-linux-gnu --with-pic --with-video-directfb \
-                --prefix="$stage" --libdir="$stage/lib/debug" --includedir="$stage/include"
-            make
-            make install
+                ./configure --target=x86_64-linux-gnu --with-pic --disable-input-tslib --disable-video-directfb \
+                --prefix="\${AUTOBUILD_PACKAGES_DIR}" --libdir="\${prefix}/lib/debug" --includedir="\${prefix}/include"
+            make -j$JOBS
+            make install DESTDIR="$stage"
 
             # clean the build tree
             make distclean
 
             # do release build of sdl
             PATH="$stage"/bin/:"$PATH" \
-                CFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" -I"$stage"/include/directfb/ $opts -O3" \
-                CXXFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" -I"$stage"/include/directfb/ $opts -O2" \
-                CPPFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" -I"$stage"/include/directfb/ $opts" \
+                CFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts -O3 -g $HARDENED" \
+                CXXFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts -O3 -g $HARDENED" \
+                CPPFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts" \
                 LDFLAGS="-L"$stage/packages/lib/release" -L"$stage/lib/release" $opts" \
-                ./configure --target=i686-linux-gnu --with-pic --with-video-directfb \
-                --prefix="$stage" --libdir="$stage/lib/release" --includedir="$stage/include"
-            make
-            make install
+                ./configure --target=x86_64-linux-gnu --with-pic --disable-input-tslib --disable-video-directfb \
+                --prefix="\${AUTOBUILD_PACKAGES_DIR}" --libdir="\${prefix}/lib/release" --includedir="\${prefix}/include"
+            make -j$JOBS
+            make install DESTDIR="$stage"
 
             # clean the build tree
             make distclean
