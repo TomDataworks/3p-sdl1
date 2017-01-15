@@ -27,11 +27,6 @@ eval "$("$AUTOBUILD" source_environment)"
 set -x
 
 stage="$(pwd)"
-ZLIB_INCLUDE="${stage}"/packages/include/zlib
-PNG_INCLUDE="${stage}"/packages/include/libpng16
-
-[ -f "$ZLIB_INCLUDE"/zlib.h ] || fail "You haven't installed the zlib package yet."
-[ -f "$PNG_INCLUDE"/png.h ] || fail "You haven't installed the libpng package yet."
 
 echo "${SDL_VERSION}" > "$stage/VERSION.txt"
 
@@ -83,21 +78,12 @@ case "$AUTOBUILD_PLATFORM" in
             export CPPFLAGS="$TARGET_CPPFLAGS"
         fi
             
-        # Force static linkage to libz by moving .sos out of the way
-        # (Libz is only packaging statics right now but keep this working.)
-        trap restore_sos EXIT
-        for solib in "${stage}"/packages/lib/{debug,release}/libz.so*; do
-            if [ -f "$solib" ]; then
-                mv -f "$solib" "$solib".disable
-            fi
-        done
-
         pushd "$TOP/$SDL_SOURCE_DIR"
             # do debug build of sdl
             PATH="$stage"/bin/:"$PATH" \
-                CFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts -Og -g" \
-                CXXFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts -Og -g" \
-                CPPFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts" \
+                CFLAGS="$opts -Og -g" \
+                CXXFLAGS="$opts -Og -g" \
+                CPPFLAGS="$opts" \
                 LDFLAGS="-L"$stage/packages/lib/debug" -L"$stage/lib/debug" $opts" \
                 ./configure --target=x86_64-linux-gnu --with-pic --disable-input-tslib --disable-video-directfb \
                 --prefix="\${AUTOBUILD_PACKAGES_DIR}" --libdir="\${prefix}/lib/debug" --includedir="\${prefix}/include"
@@ -109,9 +95,9 @@ case "$AUTOBUILD_PLATFORM" in
 
             # do release build of sdl
             PATH="$stage"/bin/:"$PATH" \
-                CFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts -O3 -g $HARDENED" \
-                CXXFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts -O3 -g $HARDENED" \
-                CPPFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts" \
+                CFLAGS="$opts -O3 -g $HARDENED" \
+                CXXFLAGS="$opts -O3 -g $HARDENED" \
+                CPPFLAGS="$opts" \
                 LDFLAGS="-L"$stage/packages/lib/release" -L"$stage/lib/release" $opts" \
                 ./configure --target=x86_64-linux-gnu --with-pic --disable-input-tslib --disable-video-directfb \
                 --prefix="\${AUTOBUILD_PACKAGES_DIR}" --libdir="\${prefix}/lib/release" --includedir="\${prefix}/include"
@@ -159,21 +145,12 @@ case "$AUTOBUILD_PLATFORM" in
             export CPPFLAGS="$TARGET_CPPFLAGS"
         fi
             
-        # Force static linkage to libz by moving .sos out of the way
-        # (Libz is only packaging statics right now but keep this working.)
-        trap restore_sos EXIT
-        for solib in "${stage}"/packages/lib/{debug,release}/libz.so*; do
-            if [ -f "$solib" ]; then
-                mv -f "$solib" "$solib".disable
-            fi
-        done
-
         pushd "$TOP/$SDL_SOURCE_DIR"
             # do debug build of sdl
             PATH="$stage"/bin/:"$PATH" \
-                CFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts -Og -g" \
-                CXXFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts -Og -g" \
-                CPPFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts" \
+                CFLAGS="$opts -Og -g" \
+                CXXFLAGS="$opts -Og -g" \
+                CPPFLAGS="$opts" \
                 LDFLAGS="-L"$stage/packages/lib/debug" -L"$stage/lib/debug" $opts" \
                 ./configure --target=x86_64-linux-gnu --with-pic \
                 --prefix="\${AUTOBUILD_PACKAGES_DIR}" --libdir="\${prefix}/lib/debug" --includedir="\${prefix}/include"
@@ -185,9 +162,9 @@ case "$AUTOBUILD_PLATFORM" in
 
             # do release build of sdl
             PATH="$stage"/bin/:"$PATH" \
-                CFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts -O3 -g $HARDENED" \
-                CXXFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts -O3 -g $HARDENED" \
-                CPPFLAGS="-I"$ZLIB_INCLUDE" -I"$PNG_INCLUDE" $opts" \
+                CFLAGS="$opts -O3 -g $HARDENED" \
+                CXXFLAGS="$opts -O3 -g $HARDENED" \
+                CPPFLAGS="$opts" \
                 LDFLAGS="-L"$stage/packages/lib/release" -L"$stage/lib/release" $opts" \
                 ./configure --target=x86_64-linux-gnu --with-pic \
                 --prefix="\${AUTOBUILD_PACKAGES_DIR}" --libdir="\${prefix}/lib/release" --includedir="\${prefix}/include"
